@@ -19,8 +19,8 @@ var os            = require('os');
 
 module.exports = (function() {
 return{
-	get_all_tuna: function(req, res){
-		console.log("getting all tuna from database: ");
+	get_all_cars: function(req, res){
+		console.log("getting all cars from database: ");
 
 		var fabric_client = new Fabric_Client();
 
@@ -57,11 +57,11 @@ return{
 		        throw new Error('Failed to get user1.... run registerUser.js');
 		    }
 
-		    // queryAllTuna - requires no arguments , ex: args: [''],
+		    // queryAllCars - requires no arguments , ex: args: [''],
 		    const request = {
-		        chaincodeId: 'tuna-app',
+		        chaincodeId: 'fabcar',
 		        txId: tx_id,
-		        fcn: 'queryAllTuna',
+		        fcn: 'queryAllCars',
 		        args: ['']
 		    };
 
@@ -84,16 +84,16 @@ return{
 		    console.error('Failed to query successfully :: ' + err);
 		});
 	},
-	add_tuna: function(req, res){
-		console.log("submit recording of a tuna catch: ");
+	add_car: function(req, res){
+		console.log("submit recording of a car: ");
 
-		var array = req.params.tuna.split("-");
+		var array = req.params.car.split("-");
 		console.log(array);
 
 		var key = array[0]
-		var timestamp = array[2]
-		var location = array[1]
-		var vessel = array[4]
+		var make = array[2]
+		var model = array[1]
+		var color = array[4]
 		var holder = array[3]
 
 
@@ -137,13 +137,13 @@ return{
 		    tx_id = fabric_client.newTransactionID();
 		    console.log("Assigning transaction_id: ", tx_id._transaction_id);
 
-		    // recordTuna - requires 5 args, ID, vessel, location, timestamp,holder - ex: args: ['10', 'Hound', '-12.021, 28.012', '1504054225', 'Hansel'], 
+		    // createCar - requires 5 args,
 		    // send proposal to endorser
 		    const request = {
 		        //targets : --- letting this default to the peers assigned to the channel
-		        chaincodeId: 'tuna-app',
-		        fcn: 'recordTuna',
-		        args: [key, vessel, location, timestamp, holder],
+		        chaincodeId: 'fabcar',
+		        fcn: 'createCar',
+		        args: [key, make, model, color, holder],
 		        chainId: 'mychannel',
 		        txId: tx_id
 		    };
@@ -243,7 +243,7 @@ return{
 		    console.error('Failed to invoke successfully :: ' + err);
 		});
 	},
-	get_tuna: function(req, res){
+	get_car: function(req, res){
 
 		var fabric_client = new Fabric_Client();
 		var key = req.params.id
@@ -281,11 +281,11 @@ return{
 		        throw new Error('Failed to get user1.... run registerUser.js');
 		    }
 
-		    // queryTuna - requires 1 argument, ex: args: ['4'],
+		    // queryCar - requires 1 argument, ex: args: ['4'],
 		    const request = {
-		        chaincodeId: 'tuna-app',
+		        chaincodeId: 'fabcar',
 		        txId: tx_id,
-		        fcn: 'queryTuna',
+		        fcn: 'queryCar',
 		        args: [key]
 		    };
 
@@ -297,7 +297,7 @@ return{
 		    if (query_responses && query_responses.length == 1) {
 		        if (query_responses[0] instanceof Error) {
 		            console.error("error from query = ", query_responses[0]);
-		            res.send("Could not locate tuna")
+		            res.send("Could not locate car")
 		            
 		        } else {
 		            console.log("Response is ", query_responses[0].toString());
@@ -305,15 +305,15 @@ return{
 		        }
 		    } else {
 		        console.log("No payloads were returned from query");
-		        res.send("Could not locate tuna")
+		        res.send("Could not locate car")
 		    }
 		}).catch((err) => {
 		    console.error('Failed to query successfully :: ' + err);
-		    res.send("Could not locate tuna")
+		    res.send("Could not locate car")
 		});
 	},
 	change_holder: function(req, res){
-		console.log("changing holder of tuna catch: ");
+		console.log("changing holder of car : ");
 
 		var array = req.params.holder.split("-");
 		var key = array[0]
@@ -359,12 +359,12 @@ return{
 		    tx_id = fabric_client.newTransactionID();
 		    console.log("Assigning transaction_id: ", tx_id._transaction_id);
 
-		    // changeTunaHolder - requires 2 args , ex: args: ['1', 'Barry'],
+		    // changeCarOwner - requires 2 args , ex: args: ['1', 'Barry'],
 		    // send proposal to endorser
 		    var request = {
 		        //targets : --- letting this default to the peers assigned to the channel
-		        chaincodeId: 'tuna-app',
-		        fcn: 'changeTunaHolder',
+		        chaincodeId: 'fabcar',
+		        fcn: 'changeCarOwner',
 		        args: [key, holder],
 		        chainId: 'mychannel',
 		        txId: tx_id
@@ -443,7 +443,7 @@ return{
 		        return Promise.all(promises);
 		    } else {
 		        console.error('Failed to send Proposal or receive valid response. Response null or status is not 200. exiting...');
-		        res.send("Error: no tuna catch found");
+		        res.send("Error: no car found");
 		        // throw new Error('Failed to send Proposal or receive valid response. Response null or status is not 200. exiting...');
 		    }
 		}).then((results) => {
@@ -454,7 +454,7 @@ return{
 		        res.json(tx_id.getTransactionID())
 		    } else {
 		        console.error('Failed to order the transaction. Error code: ' + response.status);
-		        res.send("Error: no tuna catch found");
+		        res.send("Error: no car found");
 		    }
 
 		    if(results && results[1] && results[1].event_status === 'VALID') {
@@ -465,7 +465,7 @@ return{
 		    }
 		}).catch((err) => {
 		    console.error('Failed to invoke successfully :: ' + err);
-		    res.send("Error: no tuna catch found");
+		    res.send("Error: no car found");
 		});
 
 	}
