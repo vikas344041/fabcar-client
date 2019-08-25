@@ -12,30 +12,30 @@ app.controller('appController', function($scope, appFactory){
 	$("#error_holder").hide();
 	$("#error_query").hide();
 	
-	$scope.queryAllTuna = function(){
+	$scope.queryAllCars = function(){
 
-		appFactory.queryAllTuna(function(data){
+		appFactory.queryAllCars(function(data){
 			var array = [];
 			for (var i = 0; i < data.length; i++){
-				parseInt(data[i].Key);
-				data[i].Record.Key = parseInt(data[i].Key);
+				data[i].Record.Key = data[i].Key;
 				array.push(data[i].Record);
 			}
+			console.log(array);
 			array.sort(function(a, b) {
 			    return parseFloat(a.Key) - parseFloat(b.Key);
 			});
-			$scope.all_tuna = array;
+			$scope.all_cars = array;
 		});
 	}
 
-	$scope.queryTuna = function(){
+	$scope.queryCar = function(){
 
-		var id = $scope.tuna_id;
+		var id = $scope.car_id;
 
-		appFactory.queryTuna(id, function(data){
-			$scope.query_tuna = data;
+		appFactory.queryCar(id, function(data){
+			$scope.query_car = data;
 
-			if ($scope.query_tuna == "Could not locate tuna"){
+			if ($scope.query_car == "Could not locate car"){
 				console.log()
 				$("#error_query").show();
 			} else{
@@ -44,10 +44,10 @@ app.controller('appController', function($scope, appFactory){
 		});
 	}
 
-	$scope.recordTuna = function(){
+	$scope.recordCar = function(){
 
-		appFactory.recordTuna($scope.tuna, function(data){
-			$scope.create_tuna = data;
+		appFactory.recordCar($scope.car, function(data){
+			$scope.create_car = data;
 			$("#success_create").show();
 		});
 	}
@@ -56,7 +56,7 @@ app.controller('appController', function($scope, appFactory){
 
 		appFactory.changeHolder($scope.holder, function(data){
 			$scope.change_holder = data;
-			if ($scope.change_holder == "Error: no tuna catch found"){
+			if ($scope.change_holder == "Error: no car found"){
 				$("#error_holder").show();
 				$("#success_holder").hide();
 			} else{
@@ -73,26 +73,24 @@ app.factory('appFactory', function($http){
 	
 	var factory = {};
 
-    factory.queryAllTuna = function(callback){
+    factory.queryAllCars = function(callback){
 
-    	$http.get('/get_all_tuna/').success(function(output){
+    	$http.get('/get_all_cars/').success(function(output){
 			callback(output)
 		});
 	}
 
-	factory.queryTuna = function(id, callback){
-    	$http.get('/get_tuna/'+id).success(function(output){
+	factory.queryCar = function(id, callback){
+    	$http.get('/get_car/'+id).success(function(output){
 			callback(output)
 		});
 	}
 
-	factory.recordTuna = function(data, callback){
+	factory.recordCar = function(data, callback){
 
-		data.location = data.longitude + ", "+ data.latitude;
+		var car = data.id + "-" + data.model + "-" + data.make + "-" + data.owner + "-" + data.color;
 
-		var tuna = data.id + "-" + data.location + "-" + data.timestamp + "-" + data.holder + "-" + data.vessel;
-
-    	$http.get('/add_tuna/'+tuna).success(function(output){
+    	$http.get('/add_car/'+car).success(function(output){
 			callback(output)
 		});
 	}

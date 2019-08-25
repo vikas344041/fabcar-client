@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Hyperledger Fabric Tuna Application</title>
+    <title>Hyperledger Fabric Fabcar Application</title>
     <link rel="icon" href="favicon.png" type="image/gif">
 
     <!-- require jquery and bootstrap scripts -->
@@ -63,79 +63,78 @@
   </head>
   <body ng-app="application" ng-controller="appController">
     <header>
-      <div id="left_header">Hyperledger Fabric Tuna Application</div>
-      <i id="right_header">Example Blockchain Application for Introduction to Hyperledger Fabric LFS171x</i>
+      <div id="left_header">Hyperledger Fabric Fabcar</div>
+      <i id="right_header">Fabcar</i>
     </header>
 
     <div id="body">
       <div class="form-group">
-        <label>Query All Tuna Catches</label>
-        <p><input id="queryAllTuna" type="submit" value="Query" class="btn btn-primary" ng-click="queryAllTuna()"></p>
+        <label>Query All Cars</label>
+        <p><input id="queryAllCars" type="submit" value="Query" class="btn btn-primary" ng-click="queryAllCars()"></p>
       </div>
  
-      <table id="all_tuna" class="table" align="center">
+      <table id="all_cars" class="table" align="center">
 
         <tr>
-          <th>ID</th>
-          <th>Timestamp</th>
-          <th>Holder</th>
-          <th>Catch Location <br>(Longitude, Latitude)</th>
-          <th>Vessel</th>
+          <th>VIN</th>
+          <th>Make</th>
+          <th>Owner</th>
+          <th>Model</th>
+          <th>Color</th>
         </tr>
 
-        <tr ng-repeat="tuna in all_tuna">
-          <td>{{tuna.Key}}</td>
-          <td>{{tuna.timestamp}}</td>
-          <td>{{tuna.holder}}</td>
-          <td>{{tuna.location}}</td>
-          <td>{{tuna.vessel}}</td>
+        <tr ng-repeat="car in all_cars">
+          <td>{{car.Key}}</td>
+          <td>{{car.make}}</td>
+          <td>{{car.owner}}</td>
+          <td>{{car.model}}</td>
+          <td>{{car.colour}}</td>
         </tr>
       </table>
 
       <div class="form-group">
-        <label>Query a Specific Tuna Catch</label><br>
-        <h5 style="color:red;margin-bottom:2%" id="error_query">Error: Please enter a valid Tuna Id</h5>
+        <label>Query a Specific Car</label><br>
+        <h5 style="color:red;margin-bottom:2%" id="error_query">Error: Please enter a valid Car Id</h5>
         
-        Enter a catch number: <input id="createName" class="form-control" type="text" placeholder="Ex: 3" ng-model="tuna_id">
-        <input id="querySubmit" type="submit" value="Query" class="btn btn-primary" ng-click="queryTuna()">
+        Enter a car number: <input id="createName" class="form-control" type="text" placeholder="Ex: 3" ng-model="car_id">
+        <input id="querySubmit" type="submit" value="Query" class="btn btn-primary" ng-click="queryCar()">
       </div>
 
-      <table id="query_tuna" class="table" align="center">
+      <table id="query_car" class="table" align="center">
 
         <tr>
-          <th>Timestamp</th>
-          <th>Holder</th>
-          <th>Catch Location <br>(Longitude, Latitude)</th>
-          <th>Vessel</th>
+          <th>Make</th>
+          <th>Owner</th>
+          <th>Model</th>
+          <th>Color</th>
         </tr>
 
         <tr>
-          <td>{{query_tuna.timestamp}}</td>
-          <td>{{query_tuna.holder}}</td>
-          <td>{{query_tuna.location}}</td>
-          <td>{{query_tuna.vessel}}</td>
+          <td>{{query_car.make}}</td>
+          <td>{{query_car.owner}}</td>
+          <td>{{query_car.model}}</td>
+          <td>{{query_car.colour}}</td>
         </tr>
       </table>
 
       <div class="form-group">
-        <label>Create Tuna Record</label>
-        <h5 style="color:green;margin-bottom:2%" id="success_create">Success! Tx ID: {{create_tuna}}</h5>
+        <label>Create Car Record</label>
+        <h5 style="color:green;margin-bottom:2%" id="success_create">Success! Tx ID: {{create_car}}</h5>
         <br>
-        Enter catch id: <input class="form-control" type="text" placeholder="Ex: 11" ng-model="tuna.id">
-        Enter name of vessel: <input class="form-control" type="text" placeholder="Ex: 0239L" ng-model="tuna.vessel">
-        Enter longitude: <input id="createName" class="form-control" type="text" placeholder="Ex: 28.012" ng-model="tuna.longitude"> 
-        Enter latitude: <input id="createName" class="form-control" type="text" placeholder="Ex: 150.405" ng-model="tuna.latitude">
-        Enter timestamp: <input class="form-control" type="text" placeholder="Ex: 4982342301" ng-model="tuna.timestamp">
-        Enter name of holder: <input class="form-control" type="text" placeholder="Ex: Hansel" ng-model="tuna.holder">
-        <input id="createSubmit" type="submit" value="Create" class="btn btn-primary" ng-click="recordTuna()"> 
+        Enter car id: <input class="form-control" type="text" placeholder="Ex: CAR11" ng-model="car.id">
+        Enter Color of Car: <input class="form-control" type="text" placeholder="Blue" ng-model="car.color">
+        Enter Car Model: <input id="createName" class="form-control" type="text" placeholder="C 14" ng-model="car.model">
+        Enter Make of Car: <input class="form-control" type="text" placeholder="Mercedes" ng-model="car.make">
+        Enter name of Owner: <input class="form-control" type="text" placeholder="Ex: Vikas" ng-model="car.owner">
+        <input id="createSubmit" type="submit" value="Create" class="btn btn-primary" ng-click="recordCar()"> 
       </div>
 
       <div class="form-group">
-        <label>Change Tuna Holder</label><br>
+        <label>Change Car Holder</label><br>
         <h5 style="color:green;margin-bottom:2%" id="success_holder">Success! Tx ID: {{change_holder}}</h5>
-        <h5 style="color:red;margin-bottom:2%" id="error_holder">Error: Please enter a valid Tuna Id</h5>
-        Enter a catch id between 1 and 10: <input class="form-control" name="assetSelect" placeholder="Ex: 1" ng-model="holder.id">
-        Enter name of new holder: <input class="form-control" name="assetSelect" placeholder="Ex: Barry" ng-model="holder.name">
+        <h5 style="color:red;margin-bottom:2%" id="error_holder">Error: Please enter a valid Car Id</h5>
+        Enter a car id between 1 and 10: <input class="form-control" name="assetSelect" placeholder="Ex: CAR1" ng-model="holder.id">
+        Enter name of new owner: <input class="form-control" name="assetSelect" placeholder="Ex: Barry" ng-model="holder.name">
         <input id="transferSubmit" type="submit" value="Change" class="btn btn-primary" ng-click="changeHolder()">
       </div>
 
