@@ -72,6 +72,8 @@ services:
       - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
       - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443  # operation RESTful API
       - CORE_METRICS_PROVIDER=prometheus  # prometheus will pull metrics from orderer via /metrics RESTful API
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.example.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.example.com:7051
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: peer node start
     # command: peer node start --peer-chaincodedev=true
