@@ -76,19 +76,17 @@
       <table id="all_cars" class="table" align="center">
 
         <tr>
-          <th>VIN</th>
-          <th>Make</th>
-          <th>Owner</th>
-          <th>Model</th>
-          <th>Color</th>
+          <th>ID</th>
+          <th>Department</th>
+          <th>Vin</th>
+          <th>Picture</th>
         </tr>
 
         <tr ng-repeat="car in all_cars">
-          <td>{{car.Key}}</td>
-          <td>{{car.make}}</td>
-          <td>{{car.owner}}</td>
-          <td>{{car.model}}</td>
-          <td>{{car.colour}}</td>
+          <td>{{car.id}}</td>
+          <td>{{car.department}}</td>
+          <td>{{car.vin}}</td>
+          <td>{{car.picture}}</td>
         </tr>
       </table>
 

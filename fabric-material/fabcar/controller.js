@@ -59,9 +59,9 @@ return{
 
 		    // queryAllCars - requires no arguments , ex: args: [''],
 		    const request = {
-		        chaincodeId: 'fabcar',
+		        chaincodeId: 'blockbox',
 		        txId: tx_id,
-		        fcn: 'queryAllCars',
+		        fcn: 'queryAllVehicles',
 		        args: ['']
 		    };
 
