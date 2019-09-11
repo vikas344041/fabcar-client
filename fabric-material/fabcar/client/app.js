@@ -17,12 +17,13 @@ app.controller('appController', function($scope, appFactory){
 		appFactory.queryAllCars(function(data){
 			var array = [];
 			for (var i = 0; i < data.length; i++){
-				data[i].Record.Key = data[i].Key;
+				data[i].Record.Id = data[i].Id;
 				array.push(data[i].Record);
+				console.log(array);
 			}
 			console.log(array);
 			array.sort(function(a, b) {
-			    return parseFloat(a.Key) - parseFloat(b.Key);
+			    return parseFloat(a.Id) - parseFloat(b.Id);
 			});
 			$scope.all_cars = array;
 		});
